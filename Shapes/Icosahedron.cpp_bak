@@ -1,0 +1,10 @@
+#include "Icosahedron.h"
+
+#include <numbers>
+
+using phi = std::numbers::phi;
+
+// TODO see https://upload.wikimedia.org/wikipedia/commons/9/9c/Icosahedron-golden-rectangles.svg
+void Icosahedron::setup_vertices() {
+	//vertices.emplace_back();
+}
