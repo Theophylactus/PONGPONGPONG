@@ -35,7 +35,8 @@ int main(void) {
 	new Ball(Vector(10, 25, 40), Vector(20, Canvas::HEIGHT-80, Canvas::DEPTH/2), 50, 60, YELLOW);
 	//*/
 	
-	/*
+	//*
+	// Ball on top of ball
 	new Ball(Vector(0, 0, -50), Vector(Canvas::WIDTH/2-40, Canvas::HEIGHT-80, Canvas::DEPTH-11), 50, 80, TEAL);
 	new Ball(Vector(0, 0, 50), Vector(Canvas::WIDTH/2+40, Canvas::HEIGHT-80, 81), 50, 80, BLUE, 4);
 	//*/

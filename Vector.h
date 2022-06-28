@@ -14,7 +14,7 @@ struct Vector {
 		z = vec.z;
 	}
 	
-	/* Some handy operators */
+	/* Some mathematical operators */
 	bool operator==(const Vector& v) const {
 		return x == v.x && y == v.y && z == v.z;
 	}
@@ -22,13 +22,31 @@ struct Vector {
 		Vector vec(x + v.x, y + v.y, z + v.z);
 		return vec;
 	}
-	void operator+=(const Vector& v) {
+	inline void operator+=(const Vector& v) {
 		x += v.x;
 		y += v.y;
 		z += v.z;
 	}
+	Vector operator-(const Vector& v) const {
+		Vector vec(x - v.x, y - v.y, z - v.z);
+		return vec;
+	}
+	inline void operator-=(const Vector& v) {
+		x -= v.x;
+		y -= v.y;
+		z -= v.z;
+	}
 	double operator*(const Vector& v) const {
 		return x*v.x + y*v.y + z*v.z;
+	}
+	Vector operator*(double t) const {
+		Vector vec(x * t, y * t, z * t);
+		return vec;
+	}
+	inline void operator*=(double t) {
+		x *= t;
+		y *= t;
+		z *= t;
 	}
 	
 	inline double modulus() const {

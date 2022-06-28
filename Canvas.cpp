@@ -13,13 +13,20 @@ void Canvas::init() {
 	static bool initted = false;
 	
 	if(!initted) {
+		// Initializes SDL
+		SDL_Init(SDL_INIT_VIDEO);
+		if(TTF_Init() < 0) {
+			std::cout << "Error intializing SDL_ttf: " << TTF_GetError() << std::endl;
+			exit(1);
+		}
+		
 		SDL_CreateWindowAndRenderer(WIDTH, HEIGHT, 0, &window, &main_renderer);
 		SDL_SetWindowResizable(window, (SDL_bool)true);
 		
 		SDL_SetRenderDrawBlendMode(main_renderer, SDL_BLENDMODE_ADD);
 		SDL_SetWindowTitle(window, "PONG");
 		
-		visor = new Visor(Vector(0, 0, 0), Vector(WIDTH/2, HEIGHT/2, 0), 0, 10, WHITE, 9999999999);
+		visor = new Visor(Vector(0, 0, 0), Vector(WIDTH/2, HEIGHT/2, 0), 0, 10, WHITE);
 		
 		initted = true;
 	}
@@ -168,7 +175,9 @@ void Canvas::draw_spatial_line(Vector a, Vector b, SDL_Color color) {
 				depths[y][x] = z;
 			}
 		}
-	} else {
+	}
+	// Line is too step taking Y as a function of X: we therefore take X as a function of Y
+	else {
 		double dxdy_slope = (x2 - x1) / (y2 - y1);
 		double dzdy_slope = (z2 - z1) / (y2 - y1);
 		if(y1 < y2) {
@@ -225,6 +234,8 @@ void Canvas::update() {
 				draw_spatial_line(vert.position, joins_w, shape->color);
 			}
 		}
+		
+		//Canvas::draw_spatial_line(shape->pos, shape->pos + shape->vel * 5, WHITE);
 	}
 	
 	// Frees the previously allocated depths array
