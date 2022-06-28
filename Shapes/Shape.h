@@ -27,14 +27,17 @@ public:
 	
 	double density;
 	
+	// Whether this shape shall collide with other shapes
+	bool collidable;
+	
 	// The set of points forming a locus, whose center is located at double X, Y, Z
 	// These points are always to be taken as relative to the center (again, located in X, Y and Z), NOT as absolute coordinates
 	std::vector<Vertex> vertices;
 	
 	std::vector<Plane> limiting_planes;
 	
-	explicit Shape(const Vector& v, const Vector& p, double grav_a = 0, double rad = 3, const SDL_Color c = WHITE, double dens = 1)
-	 : vel(v), pos(p), grav_accel(grav_a), radius(rad), color(c), density(dens) {
+	explicit Shape(const Vector& v, const Vector& p, double grav_a = 0, double rad = 3, const SDL_Color c = WHITE, double dens = 1, bool collide = true)
+	 : vel(v), pos(p), grav_accel(grav_a), radius(rad), color(c), density(dens), collidable(collide) {
 		all_shapes.push_back(this);
 	}
 	

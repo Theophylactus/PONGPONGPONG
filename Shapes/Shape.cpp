@@ -10,8 +10,9 @@ Shape::~Shape() {
 
 void Shape::update_pos() {
 	// Now for the code governing the collisions with other balls
+	if(!collidable) goto update_vel;
 	for(Shape* s : all_shapes) {
-		if(s == this) continue;
+		if(s == this || !s->collidable) continue;
 		
 		double diff_X = pos.x + vel.x/Canvas::TICKRATE - (s->pos.x + s->vel.x/Canvas::TICKRATE);
 		double diff_Y = pos.y - vel.y/Canvas::TICKRATE - (s->pos.y - s->vel.y/Canvas::TICKRATE);
@@ -37,45 +38,43 @@ void Shape::update_pos() {
 			double v2 = s->vel.modulus();
 			
 			/* Vector components of the velocities with respect to the contact axis */
-			double v1xc = v1 * cos(angle1_al - phi_al) * cos(angle1_az - phi_az);
-			double v1zc = v1 * cos(angle1_al - phi_al) * sin(angle1_az - phi_az);
-			double v1yc = v1 * sin(angle1_al - phi_al);
-			double v2xc = v2 * cos(angle2_al - phi_al) * cos(angle2_az - phi_az);
-			double v2zc = v2 * cos(angle2_al - phi_al) * sin(angle2_az - phi_az);
-			double v2yc = v2 * sin(angle2_al - phi_al);
+			double v1xc = v1 * cos(phi_al - angle1_al) * cos(phi_az - angle1_az);
+			double v1zc = v1 * cos(phi_al - angle1_al) * sin(phi_az - angle1_az);
+			double v1yc = v1 * sin(phi_al - angle1_al);
+			double v2xc = v2 * cos(phi_al - angle2_al) * cos(phi_az - angle2_az);
+			double v2zc = v2 * cos(phi_al - angle2_al) * sin(phi_az - angle2_az);
+			double v2yc = v2 * sin(phi_al - angle2_al);
 			
 			/* The velocities, with respect to the contact axis, after the collision */
 			double V1xc = (v1xc * (mass - s->mass) + 2 * s->mass * v2xc) / (mass + s->mass);
-			double V1zc = (v1zc * (mass - s->mass) + 2 * s->mass * v2zc) / (mass + s->mass);
-			double V1yc = (v1yc * (mass - s->mass) + 2 * s->mass * v2yc) / (mass + s->mass);
 			double V2xc = (v2xc * (s->mass - mass) + 2 * mass * v1xc) / (mass + s->mass);
-			double V2zc = (v2zc * (s->mass - mass) + 2 * mass * v1zc) / (mass + s->mass);
-			double V2yc = (v2yc * (s->mass - mass) + 2 * mass * v1yc) / (mass + s->mass);
 			
 			/* Now we change the velocities of the shapes based on the output of the collision */
-			vel.x = V1xc * cos(phi_al) * cos(phi_az) + V1zc * cos(M_PI_2 - phi_az) + V1yc * cos(M_PI_2 - phi_al) * cos(M_PI_2 - phi_az);
-			vel.z = V1zc * sin(M_PI_2 - phi_az) + V1xc * cos(phi_al) * sin(phi_az) + V1yc * cos(M_PI_2 - phi_al) * sin(M_PI_2 - phi_az);
-			vel.y = V1yc * sin(M_PI_2 - phi_al) + V1xc * sin(phi_al);
+			vel.x = V1xc * cos(phi_al) * cos(phi_az) + v1zc * cos(M_PI_2 - phi_az) + v1yc * cos(M_PI_2 - phi_al) * cos(M_PI_2 - phi_az);
+			vel.z = v1zc * sin(M_PI_2 - phi_az) + V1xc * cos(phi_al) * sin(phi_az) + v1yc * cos(M_PI_2 - phi_al) * sin(M_PI_2 - phi_az);
+			vel.y = v1yc * sin(M_PI_2 - phi_al) + V1xc * sin(phi_al);
 			
-			s->vel.x = V2xc * cos(phi_al) * cos(phi_az) + V2zc * cos(M_PI_2 - phi_az) + V2yc * cos(M_PI_2 - phi_al) * cos(M_PI_2 - phi_az);
-			s->vel.z = V2zc * sin(M_PI_2 - phi_az) + V2xc * cos(phi_al) * sin(phi_az) + V2yc * cos(M_PI_2 - phi_al) * sin(M_PI_2 - phi_az);
-			s->vel.y = V2yc * sin(M_PI_2 - phi_al) + V2xc * sin(phi_al);
+			s->vel.x = V2xc * cos(phi_al) * cos(phi_az) + v2zc * cos(M_PI_2 - phi_az) + v2yc * cos(M_PI_2 - phi_al) * cos(M_PI_2 - phi_az);
+			s->vel.z = v2zc * sin(M_PI_2 - phi_az) + V2xc * cos(phi_al) * sin(phi_az) + v2yc * cos(M_PI_2 - phi_al) * sin(M_PI_2 - phi_az);
+			s->vel.y = v2yc * sin(M_PI_2 - phi_al) + V2xc * sin(phi_al);
 		}
 	}
 	
-
+	update_vel:
 	pos.x += vel.x/Canvas::TICKRATE;
-	vel.y -= grav_accel/Canvas::TICKRATE;
+	if(pos.y <= Canvas::HEIGHT) vel.y -= grav_accel/Canvas::TICKRATE;
 	pos.y -= vel.y/Canvas::TICKRATE;
 	pos.z += vel.z/Canvas::TICKRATE;
+	
+	if(!collidable) return;
 	
 	// The following if statements are to make the ball bounce off walls upon collision
 	if(pos.x - radius <= 0) {
 		pos.x = radius;
 		vel.x *= -1;
 	}
-	if(pos.x + radius >= Canvas::WIDTH) {
-		pos.x = Canvas::WIDTH-radius;
+	if(pos.x + radius >= 1200) {
+		pos.x = 1200-radius;
 		vel.x *= -1;
 	}
 	

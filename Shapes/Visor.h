@@ -20,8 +20,10 @@ public:
 	
 	bool paused = false;
 	
-	Visor(const Vector& v, const Vector& p, double grav_a = 0, double rad = 3, SDL_Color c = WHITE, double dens = 1)
-	 : Shape(v, p, grav_a, rad, c, dens) {
+	bool collidable = false;
+	
+	Visor(const Vector& v, const Vector& p, double grav_a = 0, double rad = 3, SDL_Color c = WHITE)
+	 : Shape(v, p, grav_a, rad, c, 1, false) {
 		setup_vertices();
 	}
 };

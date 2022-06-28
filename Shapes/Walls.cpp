@@ -26,6 +26,5 @@ void Walls::setup_vertices() {
 		vertices.emplace_back(Canvas::WIDTH, 0, z, color, Vector(Canvas::WIDTH, Canvas::HEIGHT, z));
 	}
 
-	// Sets the mass of the sphere based on its volume and density
 	mass = 0;
 }

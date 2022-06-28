@@ -46,16 +46,20 @@ void Shape::update_pos() {
 			
 			/* The velocities, with respect to the contact axis, after the collision */
 			double V1xc = (v1xc * (mass - s->mass) + 2 * s->mass * v2xc) / (mass + s->mass);
+			double V1zc = (v1zc * (mass - s->mass) + 2 * s->mass * v2zc) / (mass + s->mass);
+			double V1yc = (v1yc * (mass - s->mass) + 2 * s->mass * v2yc) / (mass + s->mass);
 			double V2xc = (v2xc * (s->mass - mass) + 2 * mass * v1xc) / (mass + s->mass);
+			double V2zc = (v2zc * (s->mass - mass) + 2 * mass * v1zc) / (mass + s->mass);
+			double V2yc = (v2yc * (s->mass - mass) + 2 * mass * v1yc) / (mass + s->mass);
 			
 			/* Now we change the velocities of the shapes based on the output of the collision */
-			vel.x = V1xc * cos(phi_al) * cos(phi_az) + v1zc * cos(M_PI_2 - phi_az) + v1yc * cos(M_PI_2 - phi_al) * cos(M_PI_2 - phi_az);
-			vel.z = v1zc * sin(M_PI_2 - phi_az) + V1xc * cos(phi_al) * sin(phi_az) + v1yc * cos(M_PI_2 - phi_al) * sin(M_PI_2 - phi_az);
-			vel.y = v1yc * sin(M_PI_2 - phi_al) + V1xc * sin(phi_al);
+			vel.x = V1xc * cos(phi_al) * cos(phi_az) + V1zc * cos(M_PI_2 - phi_az) + V1yc * cos(M_PI_2 - phi_al) * cos(M_PI_2 - phi_az);
+			vel.z = V1zc * sin(M_PI_2 - phi_az) + V1xc * cos(phi_al) * sin(phi_az) + V1yc * cos(M_PI_2 - phi_al) * sin(M_PI_2 - phi_az);
+			vel.y = V1yc * sin(M_PI_2 - phi_al) + V1xc * sin(phi_al);
 			
-			s->vel.x = V2xc * cos(phi_al) * cos(phi_az) + v2zc * cos(M_PI_2 - phi_az) + v2yc * cos(M_PI_2 - phi_al) * cos(M_PI_2 - phi_az);
-			s->vel.z = v2zc * sin(M_PI_2 - phi_az) + V2xc * cos(phi_al) * sin(phi_az) + v2yc * cos(M_PI_2 - phi_al) * sin(M_PI_2 - phi_az);
-			s->vel.y = v2yc * sin(M_PI_2 - phi_al) + V2xc * sin(phi_al);
+			s->vel.x = V2xc * cos(phi_al) * cos(phi_az) + V2zc * cos(M_PI_2 - phi_az) + V2yc * cos(M_PI_2 - phi_al) * cos(M_PI_2 - phi_az);
+			s->vel.z = V2zc * sin(M_PI_2 - phi_az) + V2xc * cos(phi_al) * sin(phi_az) + V2yc * cos(M_PI_2 - phi_al) * sin(M_PI_2 - phi_az);
+			s->vel.y = V2yc * sin(M_PI_2 - phi_al) + V2xc * sin(phi_al);
 		}
 	}
 	
