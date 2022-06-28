@@ -18,6 +18,7 @@ struct Vector {
 	bool operator==(const Vector& v) const {
 		return x == v.x && y == v.y && z == v.z;
 	}
+	
 	Vector operator+(const Vector& v) const {
 		Vector vec(x + v.x, y + v.y, z + v.z);
 		return vec;
@@ -27,6 +28,7 @@ struct Vector {
 		y += v.y;
 		z += v.z;
 	}
+	
 	Vector operator-(const Vector& v) const {
 		Vector vec(x - v.x, y - v.y, z - v.z);
 		return vec;
@@ -36,8 +38,15 @@ struct Vector {
 		y -= v.y;
 		z -= v.z;
 	}
-	double operator*(const Vector& v) const {
-		return x*v.x + y*v.y + z*v.z;
+	
+	Vector operator*(const Vector& v) const {
+		Vector vec(x * v.x, y * v.y, z * v.z);
+		return vec;
+	}
+	inline void operator*=(const Vector& v) {
+		x *= v.x;
+		y *= v.y;
+		z *= v.z;
 	}
 	Vector operator*(double t) const {
 		Vector vec(x * t, y * t, z * t);
@@ -49,11 +58,30 @@ struct Vector {
 		z *= t;
 	}
 	
+	Vector operator/(const Vector& v) const {
+		Vector vec(x / v.x, y / v.y, z / v.z);
+		return vec;
+	}
+	inline void operator/=(const Vector& v) {
+		x /= v.x;
+		y /= v.y;
+		z /= v.z;
+	}
+	Vector operator/(double t) const {
+		Vector vec(x / t, y / t, z / t);
+		return vec;
+	}
+	inline void operator/=(double t) {
+		x /= t;
+		y /= t;
+		z /= t;
+	}
+	
 	inline double modulus() const {
 		return sqrt(x*x + y*y + z*z);
 	}
 	
-	// Rotates the vector horizontally (azimuth angle) around the point in center_x, center_z
+	// Rotates the vector horizontally (azimuth angle)
 	void rotate_azimuth(double angle) {
 		static double former_x, s, c;
 		
@@ -94,5 +122,12 @@ struct Vector {
 		
 		z = z * cos_angle + y * sin_angle;
 		y = y * cos_angle - former_z * sin_angle;
+	}
+	
+	double get_altitude() {
+		return atan2(y, hypot(x, z));
+	}
+	double get_azimuth() {
+		return atan2(z, x);
 	}
 };

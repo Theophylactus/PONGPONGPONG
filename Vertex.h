@@ -6,7 +6,6 @@
 #include <vector>
 
 struct Vertex {
-	// We store the position as a point and not as a vector since we want to store a color as well
 	Vector position;
 	SDL_Color color;
 	std::vector<Vector> joins_with;

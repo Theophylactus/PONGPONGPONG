@@ -7,6 +7,13 @@
 #include <unistd.h>
 #include <iostream>
 #include <SDL2/SDL_ttf.h>
+#include <sys/time.h>
+
+struct timeval currentTime;
+long get_microtime() {
+	gettimeofday(&currentTime, NULL);
+	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+}
 
 int main(void) {
 	SDL_Init(SDL_INIT_VIDEO);
@@ -19,36 +26,36 @@ int main(void) {
 	
 	//*
 	// Newton's cradle simulation
-	new Ball(Vector(20, 0 , 0), Vector(250, Canvas::HEIGHT/2, 100), 10, 10, RED);
+	new Ball(Vector(200, 0 , 0), Vector(250, Canvas::HEIGHT/2, 100), 1000, 10, RED);
 	
-	new Ball(Vector(0, 0 , 20), Vector(300, Canvas::HEIGHT/2, 100), 20, 10, YELLOW);
-	new Ball(Vector(0, 0 , 20), Vector(330, Canvas::HEIGHT/2, 100), 20, 10, NAVY);
-	new Ball(Vector(200, 200, 20), Vector(360, Canvas::HEIGHT/2, 100), 20, 10, LIME);
-	new Ball(Vector(0, 0 , 20), Vector(390, Canvas::HEIGHT/2, 100), 20, 10, TEAL);
+	new Ball(Vector(0, 0 , 200), Vector(300, Canvas::HEIGHT/2, 100), 1000, 10, YELLOW);
+	new Ball(Vector(0, 0 , 200), Vector(330, Canvas::HEIGHT/2, 100), 1000, 10, NAVY);
+	new Ball(Vector(2000, 2000, 200), Vector(360, Canvas::HEIGHT/2, 100), 1000, 10, LIME);
+	new Ball(Vector(0, 0 , 200), Vector(390, Canvas::HEIGHT/2, 100), 1000, 10, TEAL);
 	//*/
 	
 	//*
-	new Ball(Vector(0, 0, 20), Vector(Canvas::WIDTH/2, Canvas::HEIGHT/2, Canvas::DEPTH/2), 50, 120, BLUE);
-	new Ball(Vector(10, 25, 0), Vector(Canvas::WIDTH/2, Canvas::HEIGHT-80, Canvas::DEPTH/2), 50, 80, LIME);
-	new Ball(Vector(10, 25, 70), Vector(0, Canvas::HEIGHT-80, Canvas::DEPTH/4), 50, 60, YELLOW);
-	new Ball(Vector(10, 25, 0), Vector(Canvas::WIDTH/3, Canvas::HEIGHT-80, Canvas::DEPTH/2), 50, 80, LIME);
-	new Ball(Vector(10, 25, 40), Vector(20, Canvas::HEIGHT-80, Canvas::DEPTH/2), 50, 60, YELLOW);
+	new Ball(Vector(0, 0, 200), Vector(Canvas::WIDTH/2, Canvas::HEIGHT/2, Canvas::DEPTH/2), 2000, 120, BLUE);
+	new Ball(Vector(-100, 250, 0), Vector(Canvas::WIDTH/2, Canvas::HEIGHT-80, Canvas::DEPTH/2), 2000, 80, LIME);
+	new Ball(Vector(100, 250, -700), Vector(0, Canvas::HEIGHT-80, Canvas::DEPTH/4), 2000, 60, YELLOW);
+	new Ball(Vector(-100, 250, 0), Vector(Canvas::WIDTH/3, Canvas::HEIGHT-80, Canvas::DEPTH/2), 2000, 80, LIME);
+	new Ball(Vector(100, 250, 400), Vector(20, Canvas::HEIGHT-80, Canvas::DEPTH/2), 2000, 60, YELLOW);
 	//*/
 	
 	//*
 	// Ball on top of ball
-	new Ball(Vector(0, 0, -50), Vector(Canvas::WIDTH/2-40, Canvas::HEIGHT-80, Canvas::DEPTH-11), 50, 80, TEAL);
-	new Ball(Vector(0, 0, 50), Vector(Canvas::WIDTH/2+40, Canvas::HEIGHT-80, 81), 50, 80, BLUE, 4);
+	new Ball(Vector(0, 0, -500), Vector(Canvas::WIDTH/2-20, Canvas::HEIGHT-80, Canvas::DEPTH-11), 2000, 80, TEAL);
+	new Ball(Vector(0, 0, 500), Vector(Canvas::WIDTH/2+40, Canvas::HEIGHT-80, 81), 2000, 80, BLUE, 4);
 	//*/
 	
 	new Walls(AQUA);
 	
 	while(true) {
-		Canvas::update();
-		
 		Canvas::visor->listen_events();
 		
-		usleep(100000 / Canvas::TICKRATE);
+		Canvas::update();
+		
+		usleep(1000000 / Canvas::TICKRATE); // corrects lag
 		/*
 		if(Canvas::visor->paused) continue;
 		static double x = 0;

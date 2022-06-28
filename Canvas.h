@@ -8,7 +8,7 @@
 
 // Namespace containing everything related to rendering the simulation into a 2D live image
 namespace Canvas {
-	constexpr int TICKRATE = 20;
+	constexpr int TICKRATE = 60;
 	inline int WIDTH = 1200, HEIGHT = 700, DEPTH = 1200;
 	
 	inline Visor* visor;

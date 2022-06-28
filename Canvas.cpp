@@ -1,6 +1,6 @@
 #include "Canvas.h"
 #include "Shapes/Shape.h"
-#include "Arquitectura_Regular.ttf.h"
+#include "Menlo_Regular.ttf.h"
 
 #include <stdio.h>
 #include <fstream>
@@ -35,33 +35,39 @@ void Canvas::init() {
 // Writes the current coordinates of the viewpoint in the rendererer. Meant to be called on each update tick
 void Canvas::display_coordinates() {
 	static bool first_run = true;
-	static TTF_Font* arquitectura;
+	static TTF_Font* menlo;
 	
 	if(first_run) {
 		// Dumps the bytes of the font's TTF into a file so that TTF_OpenFont() can read it
 		std::string temp_filename = std::tmpnam(nullptr);
 		std::ofstream temp_file(temp_filename, std::ios::binary);
-		temp_file.write((char *)&Arquitectura_Regular_ttf[0], Arquitectura_Regular_ttf_len);
-		arquitectura = TTF_OpenFont(temp_filename.c_str(), 20);
+		temp_file.write((char *)&Menlo_Regular_ttf[0], Menlo_Regular_ttf_len);
+		menlo = TTF_OpenFont(temp_filename.c_str(), 18);
 		
 		first_run = false;
+	}
+	
+	double total_momentum = 0;
+	for(Shape* s : Shape::all_shapes) {
+		total_momentum += s->mass * s->motion.vel.modulus();
 	}
 	
 	static SDL_Surface* text_surface;
 	static SDL_Texture* text_texture;
 	static SDL_Rect text_rect;
-	static std::array<std::string, 5> lines;
+	static std::array<std::string, 6> lines;
 	lines = {"X: " + std::to_string(visor->pos.x),
 			 "Y: " + std::to_string(visor->pos.y),
 			 "Z: " + std::to_string(visor->pos.z),
 			 "Azimuth: " + std::to_string(visor->view_azimuth),
-			 "Altitude: " + std::to_string(visor->view_altitude)};
+			 "Altitude: " + std::to_string(visor->view_altitude),
+			 "p=" + std::to_string(total_momentum)};
 
 	int prev_height = 10;
 	for(const std::string& line : lines) {
 		const char* text = line.c_str();
 			
-		text_surface = TTF_RenderText_Shaded(arquitectura, text, AQUA, BLACK);
+		text_surface = TTF_RenderText_Shaded(menlo, text, AQUA, BLACK);
 		if(!text_surface) {
 			std::cout << "Failed to render text: " << TTF_GetError() << std::endl;
 			return;
@@ -250,8 +256,11 @@ void Canvas::update() {
 	// Updates the screen
 	SDL_RenderPresent(main_renderer);
 	
-	// Updates the position of each ball
-	if(!visor->paused) {
+	// Updates the position of each shape if unpaused. The visor, however, is always updated
+	if(visor->paused) {
+		visor->update_pos();
+	}
+	else {
 		for(Shape* s : Shape::all_shapes) {
 			s->update_pos();
 		}
