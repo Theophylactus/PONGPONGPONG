@@ -2,7 +2,7 @@
 
 #include "Shape.h"
 
-// Fancy name for "player
+// Fancy name for "player"
 class Visor : public Shape {
 private:
 	void setup_vertices();
@@ -19,11 +19,11 @@ public:
 	double view_cos_altitude = 1;
 	
 	bool paused = false;
-	
-	bool collidable = false;
+	bool rugged = false;
 	
 	Visor(const Vector& v, const Vector& p, double grav_a = 0, double rad = 3, SDL_Color c = WHITE)
 	 : Shape(v, p, grav_a, rad, c, 1, false) {
 		setup_vertices();
+		motion.frict_consts = Vector(0.9, 0.9, 0.9);
 	}
 };

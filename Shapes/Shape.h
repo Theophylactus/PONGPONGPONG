@@ -2,6 +2,7 @@
 
 #include "../Vertex.h"
 #include "../Vector.h"
+#include "../Motion.h"
 #include "../Plane.h"
 
 #include <vector>
@@ -14,13 +15,13 @@ protected:
 	virtual void setup_vertices() = 0;
 	
 public:
-	// A double ended queue holding all the balls
+	// A double ended queue holding all the shapes in the simulation
 	static inline std::deque<Shape*> all_shapes;
 	
 	// The ball's velocity, position, the acceleration of gravity, radius, mass, and the time it has spent falling
-	Vector vel;
+	Motion motion;
 	Vector pos;
-	double grav_accel, radius, mass;
+	double radius, mass;
 	
 	// The color of this shape
 	SDL_Color color;
@@ -37,7 +38,9 @@ public:
 	std::vector<Plane> limiting_planes;
 	
 	explicit Shape(const Vector& v, const Vector& p, double grav_a = 0, double rad = 3, const SDL_Color c = WHITE, double dens = 1, bool collide = true)
-	 : vel(v), pos(p), grav_accel(grav_a), radius(rad), color(c), density(dens), collidable(collide) {
+	 : pos(p), radius(rad), color(c), density(dens), collidable(collide) {
+		motion.vel = v;
+		motion.accel = Vector(0, grav_a, 0);
 		all_shapes.push_back(this);
 	}
 	

@@ -26,5 +26,15 @@ void Walls::setup_vertices() {
 		vertices.emplace_back(Canvas::WIDTH, 0, z, color, Vector(Canvas::WIDTH, Canvas::HEIGHT, z));
 	}
 
+	/*
+	for(int y = -400; y < 400; y+=5) {
+		for(double a = 0; a < 2 * M_PI; a += 0.1) {
+			vertices.emplace_back(cos(a) * sqrt(y*y+10000),     y,     sin(a) * sqrt(y*y+10000), RED,
+						   Vector(cos(a+0.1) * sqrt((y+5)*(y+5)+10000), y + 5, sin(a+0.1) * sqrt((y+5)*(y+5)+10000)),
+						   Vector(cos(a+0.1) * sqrt(y*y+10000), y,     sin(a+0.1) * sqrt(y*y+10000)),
+						   Vector(cos(a) * sqrt((y+5)*(y+5)+10000),     y + 5, sin(a) * sqrt((y+5)*(y+5)+10000)));
+		}
+	}*/
+	
 	mass = 0;
 }

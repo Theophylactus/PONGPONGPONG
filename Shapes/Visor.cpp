@@ -45,28 +45,54 @@ void Visor::listen_events() {
 		exit(0);
 	}
 	
-	if(keystate[SDL_SCANCODE_UP]) {
-		if(keystate[SDL_SCANCODE_LSHIFT] || keystate[SDL_SCANCODE_RSHIFT]) {
-			pos.x -= 6 * sin(view_azimuth);
-			pos.z += 6 * cos(view_azimuth);
-		} else
-			pos.y -= 6;
-	}
-	
-	if(keystate[SDL_SCANCODE_DOWN]) {
-		if(keystate[SDL_SCANCODE_LSHIFT] || keystate[SDL_SCANCODE_RSHIFT]) {
-			pos.x += 6 * sin(view_azimuth);
-			pos.z -= 6 * cos(view_azimuth);
-		} else
-			pos.y += 6;
-	}
-	
-	if(keystate[SDL_SCANCODE_LEFT]) {
-		pos.x -= 6 * cos(view_azimuth);
-		pos.z += 6 * sin(-view_azimuth);
-	} if(keystate[SDL_SCANCODE_RIGHT]) {
-		pos.x += 6 * cos(view_azimuth);
-		pos.z -= 6 * sin(-view_azimuth);
+	if(rugged) {
+		if(keystate[SDL_SCANCODE_UP]) {
+			if(keystate[SDL_SCANCODE_LSHIFT] || keystate[SDL_SCANCODE_RSHIFT]) {
+				pos.x -= 6 * sin(view_azimuth);
+				pos.z += 6 * cos(view_azimuth);
+			} else
+				pos.y -= 6;
+		}
+		if(keystate[SDL_SCANCODE_DOWN]) {
+			if(keystate[SDL_SCANCODE_LSHIFT] || keystate[SDL_SCANCODE_RSHIFT]) {
+				pos.x += 6 * sin(view_azimuth);
+				pos.z -= 6 * cos(view_azimuth);
+			} else
+				pos.y += 6;
+		}
+		
+		if(keystate[SDL_SCANCODE_LEFT]) {
+			pos.x -= 6 * cos(view_azimuth);
+			pos.z += 6 * sin(-view_azimuth);
+		}
+		if(keystate[SDL_SCANCODE_RIGHT]) {
+			pos.x += 6 * cos(view_azimuth);
+			pos.z -= 6 * sin(-view_azimuth);
+		}
+	} else {
+		if(keystate[SDL_SCANCODE_UP]) {
+			if(keystate[SDL_SCANCODE_LSHIFT] || keystate[SDL_SCANCODE_RSHIFT]) {
+				motion.vel.x -= 24 * sin(view_azimuth);
+				motion.vel.z += 24 * cos(view_azimuth);
+			} else
+				motion.vel.y -= 24;
+		}
+		
+		if(keystate[SDL_SCANCODE_DOWN]) {
+			if(keystate[SDL_SCANCODE_LSHIFT] || keystate[SDL_SCANCODE_RSHIFT]) {
+				motion.vel.x += 24 * sin(view_azimuth);
+				motion.vel.z -= 24 * cos(view_azimuth);
+			} else
+				motion.vel.y += 24;
+		}
+		
+		if(keystate[SDL_SCANCODE_LEFT]) {
+			motion.vel.x -= 24 * cos(view_azimuth);
+			motion.vel.z += 24 * sin(-view_azimuth);
+		} if(keystate[SDL_SCANCODE_RIGHT]) {
+			motion.vel.x += 24 * cos(view_azimuth);
+			motion.vel.z -= 24 * sin(-view_azimuth);
+		}
 	}
 	
 	if(keystate[SDL_SCANCODE_W]) {
