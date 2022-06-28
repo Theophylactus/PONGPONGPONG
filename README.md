@@ -1,4 +1,3 @@
 # PONG_3D
-3D graphics simulator with newtonian mechanics. Not meant to be of any use, entirely made as an exercise.
-
-The mechanics still seem to be a little bit broken
+This is a 3D classical mechanics simulator made as an exercise.
+The code might be a bit quirky since no tutorials or guides were followed
