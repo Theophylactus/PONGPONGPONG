@@ -5,10 +5,10 @@ The code might be a bit quirky since no tutorials or guides were followed at any
 * libsdl2
 * libsdl_ttf
 
-##Some examples
+## Some examples
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/pong.png)
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/pongpong.png)
-###A more recent screenshot (with triangles!)
+### A more recent screenshot (with triangles!)
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/pongpongpong.png)
 
 This project was entirely made as a humble attempt to recreate the glorious 3D graphics we see in PONPONPON:
