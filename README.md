@@ -14,4 +14,4 @@ This project was entirely made as a humble attempt to recreate the glorious 3D g
 
 Now that I have [at least partially] achieved my goal, I shall return home in peace with Zeus's highest blessing.
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/cardinal.png)
-Thank you
+Thank you.
