@@ -25,10 +25,10 @@ void Visor::listen_events() {
 			if(event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
 				Canvas::WIDTH = event.window.data1;
 				Canvas::HEIGHT = event.window.data2;
+			}
         	}
-        }
-        // We listen for this particular key press this way because we're only interested in receiving the instant the key is pressed down, not
-        // on the key being currently pressed
+		// We listen for this particular key press this way because we're only interested in receiving the instant the key is pressed down, not
+		// on the key being currently pressed
 		else if(event.type == SDL_KEYDOWN) {
 			if(event.key.keysym.sym == SDLK_SPACE)
 				paused = !paused;
@@ -72,47 +72,49 @@ void Visor::listen_events() {
 	} else {
 		if(keystate[SDL_SCANCODE_UP]) {
 			if(keystate[SDL_SCANCODE_LSHIFT] || keystate[SDL_SCANCODE_RSHIFT]) {
-				motion.vel.x -= 24 * sin(view_azimuth);
-				motion.vel.z += 24 * cos(view_azimuth);
+				motion.vel.x -= 20 * sin(view_azimuth);
+				motion.vel.z += 20 * cos(view_azimuth);
 			} else
-				motion.vel.y -= 24;
+				motion.vel.y -= 20;
 		}
 		
 		if(keystate[SDL_SCANCODE_DOWN]) {
 			if(keystate[SDL_SCANCODE_LSHIFT] || keystate[SDL_SCANCODE_RSHIFT]) {
-				motion.vel.x += 24 * sin(view_azimuth);
-				motion.vel.z -= 24 * cos(view_azimuth);
+				motion.vel.x += 20 * sin(view_azimuth);
+				motion.vel.z -= 20 * cos(view_azimuth);
 			} else
-				motion.vel.y += 24;
+				motion.vel.y += 20;
 		}
 		
 		if(keystate[SDL_SCANCODE_LEFT]) {
-			motion.vel.x -= 24 * cos(view_azimuth);
-			motion.vel.z += 24 * sin(-view_azimuth);
+			motion.vel.x -= 20 * cos(view_azimuth);
+			motion.vel.z += 20 * sin(-view_azimuth);
 		} if(keystate[SDL_SCANCODE_RIGHT]) {
-			motion.vel.x += 24 * cos(view_azimuth);
-			motion.vel.z -= 24 * sin(-view_azimuth);
+			motion.vel.x += 20 * cos(view_azimuth);
+			motion.vel.z -= 20 * sin(-view_azimuth);
 		}
 	}
 	
 	if(keystate[SDL_SCANCODE_W]) {
-		view_altitude -= 0.02;
+		view_altitude -= 0.03;
 		view_sin_altitude = sin(view_altitude);
 		view_cos_altitude = cos(view_altitude);
 	}
 	if(keystate[SDL_SCANCODE_S]) {
-		view_altitude += 0.02;
+		view_altitude += 0.03;
 		view_sin_altitude = sin(view_altitude);
 		view_cos_altitude = cos(view_altitude);
 	}
 	if(keystate[SDL_SCANCODE_A]) {
-		view_azimuth += 0.02;
+		view_azimuth += 0.03;
 		view_sin_azimuth = sin(view_azimuth);
 		view_cos_azimuth = cos(view_azimuth);
 	}
 	if(keystate[SDL_SCANCODE_D]) {
-		view_azimuth -= 0.02;
+		view_azimuth -= 0.03;
 		view_sin_azimuth = sin(view_azimuth);
 		view_cos_azimuth = cos(view_azimuth);
 	}
+	
+	SDL_PumpEvents();
 }

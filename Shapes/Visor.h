@@ -24,6 +24,7 @@ public:
 	Visor(const Vector& v, const Vector& p, double grav_a = 0, double rad = 3, SDL_Color c = WHITE)
 	 : Shape(v, p, grav_a, rad, c, 1, false) {
 		setup_vertices();
-		motion.frict_consts = Vector(0.9, 0.9, 0.9);
+		mass = 0;
+		motion.frict_consts = Vector(1.5, 1.5, 1.5);
 	}
 };
