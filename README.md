@@ -1,5 +1,5 @@
 # PONG_3D
-This is a 3D "engine" featuring elastic collisions and some other fancy things.
+This is a 3D physics "engine" featuring elastic collisions and some other fancy yet scarce things.
 The code might be a bit quirky since no tutorials or guides were followed at any point.
 ## Dependencies
 * libsdl2
