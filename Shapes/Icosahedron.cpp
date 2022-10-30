@@ -6,16 +6,6 @@ constexpr double phi2 = phi/2;
 void Icosahedron::setup_vertices() {
 	double side = radius * phi2;
 	
-	//faces.emplace_back(Vector(phi2 * side, side/2, 0), Vector(phi2 * side, -side/2, 0), Vector(-phi2 * side, -side/2, 0));
-	//faces.emplace_back(Vector(-phi2 * side, side/2, 0), Vector(0, phi2 * side, side/2), Vector(0, phi2 * -side, side/2));
-	//faces.emplace_back(Vector(0, phi2 * -side, -side/2), Vector(0, phi2 * side, -side/2), Vector(side/2, 0, phi2 * side));
-	//faces.emplace_back(Vector(side/2, 0, -phi2 * side), Vector(-side/2, 0, -phi2 * side), Vector(-side/2, 0, phi2 * side));
-	
-	//faces.emplace_back(Vector(phi2 * side, side/2, 0), Vector(phi2 * side, -side/2, 0), Vector(-phi2 * side, -side/2, 0));
-	//faces.emplace_back(Vector(-phi2 * side, side/2, 0), Vector(0, phi2 * side, side/2), Vector(0, phi2 * -side, side/2));
-	//faces.emplace_back(Vector(0, phi2 * -side, -side/2), Vector(0, phi2 * side, -side/2), Vector(side/2, 0, phi2 * side));
-	//faces.emplace_back(Vector(side/2, 0, -phi2 * side), Vector(-side/2, 0, -phi2 * side), Vector(-side/2, 0, phi2 * side));
-	
 	std::vector<Vector> points;
 
 	//https://upload.wikimedia.org/wikipedia/commons/9/9c/Icosahedron-golden-rectangles.svg
