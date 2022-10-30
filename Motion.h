@@ -16,6 +16,7 @@ struct Motion {
 	void update_vel();
 	
 	// Updates a given position after the course of an instant
-	void advance_pos(Vector& pos);
-	void advance_pos(Vector& pos, double& al, double& az);
+	void advance_pos(Vector& pos) const noexcept;
+	// Same as before, but affecting angles as well
+	void advance_pos(Vector& pos, double& al, double& az) const noexcept;
 };

@@ -12,16 +12,14 @@ struct Vertex {
 	
 	template<typename... T>
 	Vertex(double x, double y, double z, SDL_Color c, const T&... joins_w) : position(x, y, z), color(c){
-		static_assert(sizeof...(T) <= 6, "A vertex cannot join with more than 6 points; more than 6 have been given");
+		static_assert(sizeof...(T) <= 6, "A vertex cannot join with more than 6 points; more than 6 were given");
 		joins_with = {joins_w...};
 	}
-	
-	/*
 	template<typename... T>
-	Vertex(const Point& pos, const T&... joins_w) : position(pos) {
-		static_assert(sizeof...(T) <= 6, "A vertex cannot join with more than 6 points; more than 6 have been given");
+	Vertex(Vector pos, SDL_Color c, const T&... joins_w) : position(pos), color(c) {
+		static_assert(sizeof...(T) <= 6, "A vertex cannot join with more than 6 points; more than 6 were given");
 		joins_with = {joins_w...};
-	}*/
+	}
 	
 	Vertex(const Vertex& vertex) : position(vertex.position), color(vertex.color), joins_with(vertex.joins_with) { }
 	
@@ -55,6 +53,9 @@ struct Vertex {
 	bool operator==(const Vertex& p) const {
 		return position == p.position && joins_with == p.joins_with;
 	}
+	bool operator==(const Vector& v) const {
+		return position == v;
+	}
 	
 	// Shifts the entire vertex in the space
 	Vertex operator+(const Vector& vec) const {
@@ -74,5 +75,3 @@ struct Vertex {
 			v += vec;
 	}
 };
-
-using Vertices = std::vector<Vertex>;

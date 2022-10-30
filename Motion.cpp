@@ -14,12 +14,12 @@ void Motion::update_vel() {
 }
 
 
-void Motion::advance_pos(Vector& pos) {
+void Motion::advance_pos(Vector& pos) const noexcept {
 	pos.x += vel.x / Canvas::TICKRATE;
 	pos.y += vel.y / Canvas::TICKRATE;
 	pos.z += vel.z / Canvas::TICKRATE;
 }
-void Motion::advance_pos(Vector& pos, double& al, double& az) {
+void Motion::advance_pos(Vector& pos, double& al, double& az) const noexcept {
 	pos.x += vel.x / Canvas::TICKRATE;
 	pos.y += vel.y / Canvas::TICKRATE;
 	pos.z += vel.z / Canvas::TICKRATE;
