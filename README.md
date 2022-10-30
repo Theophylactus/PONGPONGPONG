@@ -1,3 +1,17 @@
 # PONG_3D
-This is a 3D classical mechanics simulator made as an exercise.
-The code might be a bit quirky since no tutorials or guides were followed
+This is a 3D "engine" featuring elastic collisions and some other fancy things.
+The code might be a bit quirky since no tutorials or guides were followed at any point.
+
+Some examples
+![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/pong.png)
+![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/pongpong.png)
+A more recent screenshot (with triangles!)
+![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/pongpongpong.png)
+
+This project was entirely made as a humble attempt to recreate the glorious 3D graphics we see in PONPONPON:
+![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/carousel.png)
+![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/feet.png)
+
+Now that I have [at least partially] achieved my goal, I shall return home in peace with Zeus's highest blessing.
+![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/cardinal.png)
+Thank you
