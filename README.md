@@ -9,8 +9,8 @@ A more recent screenshot (with triangles!)
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/pongpongpong.png)
 
 This project was entirely made as a humble attempt to recreate the glorious 3D graphics we see in PONPONPON:
-![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/carousel.png)
-![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/feet.png)
+![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/carousel.jpg)
+![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/feet.jpg)
 
 Now that I have [at least partially] achieved my goal, I shall return home in peace with Zeus's highest blessing.
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/cardinal.png)
