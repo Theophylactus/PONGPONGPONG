@@ -4,6 +4,7 @@ The code might be a bit quirky since no tutorials or guides were followed at any
 ## Dependencies
 * libsdl2
 * libsdl_ttf
+* Many sweet, industrially produced chocolate biscuits
 
 ## Some examples
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/pong.png)
