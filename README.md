@@ -3,6 +3,7 @@ This is a 3D physics "engine" featuring elastic collisions and some other fancy 
 The code might be a bit quirky since no tutorials or guides were followed at any point.
 ## Dependencies
 * libsdl2
+* Not a single matrix
 * libsdl_ttf
 * Many sweet, industrially produced chocolate biscuits
 
