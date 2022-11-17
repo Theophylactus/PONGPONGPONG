@@ -17,7 +17,7 @@ The code might be a bit quirky since no tutorials or guides were followed at any
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/wayway.png)
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/pongway.png)
 
-This project was entirely made as a humble attempt to recreate the glorious 3D graphics we see in PONPONPON, universal anthem of [REDACTED]:
+This project was entirely made as a humble attempt to recreate the glorious 3D graphics we see in PONPONPON:
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/carousel.jpg)
 メリーゴーランド のりたいの！
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/hand.jpg)
