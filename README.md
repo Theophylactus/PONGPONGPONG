@@ -21,7 +21,6 @@ This project was entirely made as a humble attempt to recreate the glorious 3D g
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/hand.jpg)
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/carousel.jpg)
 メリーゴーランド のりたいの！
-![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/feet.jpg)
 
 Now that I have [at least partially] achieved my goal, I shall return home in peace under Zeus's highest blessing.
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/cardinal.png)
