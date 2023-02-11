@@ -1,4 +1,4 @@
-#include "Walls.h"
+#include "Walls.hpp"
 
 #include <math.h>
 

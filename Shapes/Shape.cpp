@@ -1,9 +1,8 @@
-#include "Shape.h"
-#include "Walls.h"
+#include "Shape.hpp"
+#include "Walls.hpp"
 
 #include <algorithm>
 #include <array>
-#include <stdio.h>
 
 Shape::~Shape() {
 	all_shapes.erase(std::find(all_shapes.begin(), all_shapes.end(), this));
@@ -29,15 +28,18 @@ void Shape::create_mesh(const std::vector<Vector>& points, float max_distance) {
 }
 
 void Shape::create_triangle_mesh(const std::vector<Vector>& points, float max_perimeter) {
-	//std::array<float, pow(points.size(), 3)> size_candi
-	
 	for(const Vector& a : points) {
 		for(const Vector& b : points) {
 			for(const Vector& c : points) {
 				if(a == b || c == a || c == b) continue;
 				
-				if((b-a).modulus() + (b-c).modulus() + (a-c).modulus() <= max_perimeter)
-					faces.emplace_back(a, b, c);
+				if((b-a).modulus() + (b-c).modulus() + (a-c).modulus() <= max_perimeter) {
+					//Triangle candidate(a, b, c, (SDL_Color){rand()%255, rand()%255, rand()%255});
+					Triangle candidate(a, b, c, (SDL_Color){color.r, color.g, color.b});
+					
+					if(std::find(faces.begin(), faces.end(), candidate) == faces.end())
+						faces.push_back(candidate);
+				}
 			}
 		}
 	}

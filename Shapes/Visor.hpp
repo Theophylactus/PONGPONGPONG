@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Shape.h"
+#include "Shape.hpp"
 
 // Fancy name for "player"
 class Visor : public Shape {

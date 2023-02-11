@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Vertex.h"
-#include "../Vector.h"
-#include "../Motion.h"
-#include "../Triangle.h"
+#include "../Vertex.hpp"
+#include "../Vector.hpp"
+#include "../Motion.hpp"
+#include "../Triangle.hpp"
 
 #include <vector>
 #include <deque>

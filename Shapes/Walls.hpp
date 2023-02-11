@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Shape.h"
+#include "Shape.hpp"
 
 class Walls : public Shape {
 private:
 	void setup_vertices();
 	
 public:
-	static constexpr int WIDTH = 1800, HEIGHT = 900, DEPTH = 1800, tile_dim = 50;
+	static constexpr int WIDTH = 3600, HEIGHT = 1000, DEPTH = 3600, tile_dim = 50;
 	
 	explicit Walls(SDL_Color color = AQUA)
 	 : Shape(Vector(0, 0, 0), Vector(0, 0, 0), 0, 0, color, 0) {

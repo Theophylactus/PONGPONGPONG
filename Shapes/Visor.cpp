@@ -1,5 +1,5 @@
-#include "Visor.h"
-#include "../Canvas.h"
+#include "Visor.hpp"
+#include "../Canvas.hpp"
 
 #include <SDL2/SDL.h>
 #include <stdlib.h>
@@ -15,7 +15,6 @@ void Visor::listen_events() {
 	
 	if(SDL_PollEvent(&event)) {
 		if(event.type == SDL_QUIT) {
-			SDL_DestroyRenderer(Canvas::main_renderer);
 			SDL_DestroyWindow(Canvas::window);
 			SDL_Quit();
 			exit(0);
@@ -25,6 +24,7 @@ void Visor::listen_events() {
 			if(event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
 				Canvas::WIDTH = event.window.data1;
 				Canvas::HEIGHT = event.window.data2;
+				Canvas::window_surface = SDL_GetWindowSurface(Canvas::window);
 			}
         	}
 		// We listen for this particular key press this way because we're only interested in receiving the instant the key is pressed down, not
@@ -39,7 +39,6 @@ void Visor::listen_events() {
 	
 	// Quit on Ctrl + Q
 	if((keystate[SDL_SCANCODE_LCTRL] || keystate[SDL_SCANCODE_RCTRL]) && keystate[SDL_SCANCODE_Q]) {
-		SDL_DestroyRenderer(Canvas::main_renderer);
 		SDL_DestroyWindow(Canvas::window);
 		SDL_Quit();
 		exit(0);
