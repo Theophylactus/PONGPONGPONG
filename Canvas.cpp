@@ -1,11 +1,12 @@
-#include "Canvas.h"
-#include "Shapes/Shape.h"
-#include "Menlo_Regular.ttf.h"
+#include "Canvas.hpp"
+#include "Shapes/Shape.hpp"
+#include "Menlo_Regular.ttf.hpp"
 
 #include <stdio.h>
 #include <fstream>
 #include <iostream>
 #include <algorithm>
+#include <numeric>
 #include <array>
 #include <filesystem>
 #include <SDL2/SDL_ttf.h>
@@ -26,11 +27,12 @@ void Canvas::init() {
 		
 		//SDL_CreateWindowAndRenderer(WIDTH, HEIGHT, 0, &window, &main_renderer);
 		window = SDL_CreateWindow("PONG 3D", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0);
-		main_renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+		//main_renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 		SDL_SetWindowResizable(window, (SDL_bool)true);
 		
-		SDL_SetRenderDrawBlendMode(main_renderer, SDL_BLENDMODE_ADD);
-		//SDL_SetWindowTitle(window, "PONG");
+		//SDL_SetRenderDrawBlendMode(main_renderer, SDL_BLENDMODE_ADD);
+		
+		window_surface = SDL_GetWindowSurface(window);
 		
 		visor = new Visor(Vector(0, 0, 0), Vector(WIDTH/2, HEIGHT/2, 0), 0, 10, WHITE);
 		
@@ -39,6 +41,7 @@ void Canvas::init() {
 }
 
 // Writes the current coordinates of the viewpoint in the rendererer. Meant to be called on each update tick
+/*
 void Canvas::display_coordinates() noexcept {
 	static bool first_run = true;
 	static TTF_Font* menlo;
@@ -98,7 +101,7 @@ void Canvas::display_coordinates() noexcept {
 		SDL_DestroyTexture(text_texture);
 	}
 }
-
+*/
 
 /* Transforms the coordinates of a point to those of its projection according to the current parameters of the visor
  * First, shifts the point to change its cartesian coordinates origin to that of our view point
@@ -107,24 +110,8 @@ void Canvas::display_coordinates() noexcept {
 	We do not square z since we are working with singular points, not surfaces
  * Fourth, converts the point to the coordinate system that the SDL window (and most things in CS) uses
  */
-void Canvas::project_point(Vector& p) noexcept {
-	p.x -= visor->pos.x;
-	p.y -= visor->pos.y;
-	p.z -= visor->pos.z;
-	
-	p.rotate_azimuth(visor->view_sin_azimuth, visor->view_cos_azimuth);
-	p.rotate_altitude(visor->view_sin_altitude, visor->view_cos_altitude);
-	
-	if(p.z <= 0) p.z = 1;
-	
-	// We reduce z to get a more realistic FOV
-	p.x /= p.z * 0.002;
-	p.y /= p.z * 0.002;
-	
-	// Transforms the points back to our quirky, computer screen compliant coordinates
-	p.x += WIDTH/2;
-	p.y += HEIGHT/2;
-}
+
+
 
 void Canvas::project_vertex(Vertex& v) noexcept {
 	project_point(v.position);
@@ -137,7 +124,7 @@ void Canvas::project_vertex(Vertex& v) noexcept {
 // This array should be cleared after the render of each frame
 static short** depths;
 
-void Canvas::draw_spatial_line(Vector a, Vector b, SDL_Color color) noexcept {
+void Canvas::draw_spatial_line(Vector a, Vector b, SDL_Color color, bool ignore_depth) noexcept {
 	project_point(a);
 	project_point(b);
 	
@@ -185,11 +172,17 @@ void Canvas::draw_spatial_line(Vector a, Vector b, SDL_Color color) noexcept {
 			if(y >= HEIGHT) continue;
 			if(z <= 0) continue;
 			
+			if(ignore_depth) {
+				set_pixel(x, y, RGB2hex(color.r, color.g, color.b));
+				depths[y][x] = 1;
+				continue;
+			}
+			
 			if(depths[y][x] > z || depths[y][x] <= 0) {
-				int luminosity = 50000000/(z*z);
+				double luminosity = 100000000/(z*z);
 				if(luminosity > 255) luminosity = 255;
-				SDL_SetRenderDrawColor(main_renderer, color.r, color.g, color.b, (Uint8)luminosity);
-				SDL_RenderDrawPoint(main_renderer, x, y);
+				luminosity /= 255;
+				set_pixel(x, y, RGB2hex(color.r * luminosity, color.g * luminosity, color.b * luminosity));
 				depths[y][x] = z;
 			}
 		}
@@ -222,60 +215,32 @@ void Canvas::draw_spatial_line(Vector a, Vector b, SDL_Color color) noexcept {
 			if(x > WIDTH) continue;
 			if(z <= 0) continue;
 			
+			if(ignore_depth) {
+				set_pixel(x, y, RGB2hex(color.r, color.g, color.b));
+				depths[y][x] = 1;
+				continue;
+			}
+			
 			if(depths[y][x] > z || depths[y][x] <= 0) {
-				int luminosity = 50000000/(z*z);
+				double luminosity = 100000000/(z*z); // WTF 196078
 				if(luminosity > 255) luminosity = 255;
-				SDL_SetRenderDrawColor(main_renderer, color.r, color.g, color.b, (Uint8)luminosity);
-				SDL_RenderDrawPoint(main_renderer, x, y);
+				luminosity /= 255;
+				set_pixel(x, y, RGB2hex(color.r * luminosity, color.g * luminosity, color.b * luminosity));
 				depths[y][x] = z;
 			}
 		}
 	}
 }
 
-#define abs(x)  (x<0)?-x:x
 
-void Canvas::draw_spatial_triangle(Vector a, Vector b, Vector c, SDL_Color color) noexcept {
-	/*
-	switch(rand() % 10) {
-		case 0:
-			color = GREEN;
-			break;
-		case 1:
-			color = RED;
-			break;
-		case 2:
-			color = TEAL;
-			break;
-		case 3:
-			color = FUCHSIA;
-			break;
-		case 4:
-			color = PURPLE;
-			break;
-		case 5:
-			color = AQUA;
-			break;
-		case 6:
-			color = GRAY;
-			break;
-		case 7:
-			color = NAVY;
-			break;
-		case 8:
-			color = BLUE;
-			break;
-		case 9:
-			color = MAROON;
-			break;
-		case 10:
-			color = YELLOW;
-			break;
-	}//*/
+void Canvas::draw_spatial_triangle(const Triangle& tri, bool contour) noexcept {
+	Vector a = tri.a, b = tri.b, c = tri.c;
 	
-	draw_spatial_line(a, b, OLIVE);
-	draw_spatial_line(b, c, OLIVE);
-	draw_spatial_line(c, a, OLIVE);
+	if(contour) {
+		draw_spatial_line(a, b, GREEN, true);
+		draw_spatial_line(b, c, GREEN, true);
+		draw_spatial_line(c, a, GREEN, true);
+	}
 	
 	project_point(a);
 	project_point(b);
@@ -330,72 +295,62 @@ void Canvas::draw_spatial_triangle(Vector a, Vector b, Vector c, SDL_Color color
 		}
 	}
 	
-	float dxdy_middle = (top.x - middle.x)/(top.y - middle.y);
-	float dxdy_bottom = (top.x - bottom.x)/(top.y - bottom.y);
+	float dxdy_topmiddle = (top.x-middle.x)/(top.y-middle.y);
+	float dxdy_topbottom = (top.x-bottom.x)/(top.y-bottom.y);
+	float dxdy_middlebottom = (middle.x-bottom.x)/(middle.y-bottom.y);
+	float dzdy_topmiddle = (top.z-middle.z)/(top.y-middle.y);
+	float dzdy_topbottom = (top.z-bottom.z)/(top.y-bottom.y);
+	float dzdy_middlebottom = (middle.z-bottom.z)/(middle.y-bottom.y);
 	
-	/*
-	float dzdx;
-	if(top.x == middle.x)
-		dzdx = (top.z - bottom.z)/(top.x - bottom.x);
-	else
-		dzdx = (top.z - middle.z)/(top.x - middle.x);*/
-	
-	SDL_SetRenderDrawColor(main_renderer, color.r, color.g, color.b, cos_alpha * 255);
+	int begin_x, begin_z, end_x, end_z, dzdx, z;
 	
 	for(int y = top.y+1; y <= bottom.y; ++y) {
 		if(y >= HEIGHT) break;
 		if(y < 0) y = 0;
 		
-		int end = round(dxdy_bottom * (y-top.y) + top.x);
-		
-		int begin;
-		
-		if(y >= middle.y) {
-			dxdy_middle = (middle.x - bottom.x)/(middle.y - bottom.y);
-			begin = dxdy_middle * (y-middle.y) + middle.x;
+		if(y < middle.y) {
+			begin_x = dxdy_topmiddle * (y-top.y) + top.x;
+			begin_z = dzdy_topmiddle * (y-top.y) + top.z;
+			end_x = dxdy_topbottom * (y-top.y) + top.x;
+			end_z = dzdy_topbottom * (y-top.y) + top.z;
 		} else {
-			begin = dxdy_middle * (y-top.y) + top.x;
+			begin_x = dxdy_middlebottom * (y-middle.y) + middle.x;
+			begin_z = dzdy_middlebottom * (y-middle.y) + middle.z;
+			end_x = dxdy_topbottom * (y-top.y) + top.x;
+			end_z = dzdy_topbottom * (y-top.y) + top.z;
 		}
 		
-		if(end > begin) {
-			for(int x = begin; x <= end; ++x) {
-				if(x >= WIDTH) break;
-				if(x < 0) x = 0;
+		
+		if(end_x < begin_x) {
+			std::swap(begin_x, end_x);
+			std::swap(begin_z, end_z);
+		}
+		
+		if(end_x - begin_x == 0) end_x++;
+		
+		dzdx = (end_z-begin_z)/(end_x-begin_x);
+		
+		for(int x = begin_x; x <= end_x; ++x) {
+			if(x >= WIDTH) break;
+			if(x < 0) x = 0;
+			
+			z = dzdx * (x-begin_x) + begin_z;
+			
+			if((depths[y][x] > z || depths[y][x] <= 0) && z > 0) {
+				float luminosity = 500000000/pow(z, 2); // WTF 196078
+				if(luminosity > 255) luminosity = 255;
+				luminosity /= 255;
 				
-				//z = dzdx * (x-begin) + top.z;
-				
-				//if(depths[y][x] > z || depths[y][x] <= 0) {
-					//int luminosity = z <= 0 ? 255 : 50000000/(z*z);
-					//if(luminosity > 255) luminosity = 255;
-					//SDL_SetRenderDrawColor(main_renderer, 0, 127, 127, (Uint8)luminosity);
-					
-				SDL_RenderDrawPoint(main_renderer, x, y);
-					//depths[y][x] = z;
-				//}
-			}
-		} else {
-			for(int x = begin; x >= end; --x) {
-				if(x > WIDTH) x = WIDTH;
-				if(x < 0) break;
-				
-				//z = dzdx * (x-begin) + top.z;
-				
-				//if(depths[y][x] > z || depths[y][x] <= 0) {
-					//int luminosity = z <= 0 ? 255 : 50000000/(z*z);
-					//if(luminosity > 255) luminosity = 255;
-					//SDL_SetRenderDrawColor(main_renderer, 0, 127, 127, (Uint8)luminosity);
-					
-				SDL_RenderDrawPoint(main_renderer, x, y);
-					//depths[y][x] = z;
-				//}
+				set_pixel(x, y, RGB2hex(tri.color.r * (cos_alpha + luminosity)/2, tri.color.g * (cos_alpha + luminosity)/2, tri.color.b * (cos_alpha + luminosity)/2));
+		
+				depths[y][x] = z;
 			}
 		}
 	}
 }
 
 void Canvas::update() {
-	SDL_SetRenderDrawColor(main_renderer, 0, 0, 0, 0);
-	SDL_RenderClear(main_renderer);
+	wipe_surface();
 	
 	// Initializes the depths array as an array of clear arrays, effectively forming a grid that represents each point in our canvas
 	depths = (short**)calloc(HEIGHT, sizeof(short*));
@@ -413,19 +368,23 @@ void Canvas::update() {
 			}
 		}
 		for(const Triangle& tri : shape->faces) {
-			draw_spatial_triangle(tri.a + shape->pos, tri.b + shape->pos, tri.c + shape->pos, shape->color);
+			draw_spatial_triangle(tri + shape->pos);
 		}
 	}
 		
 	// Adds the coordinates legend
-	display_coordinates();
+	//display_coordinates();
 	
-	
-	//draw_spatial_triangle(Vector(150, 100, 400), Vector(300, 1000, 100), Vector(600, 600, 900), RED);
-	//draw_spatial_triangle(Vector(600, 1000, 300), Vector(800, 0, 300), Vector(1300, 400, 500), TEAL);
-	
+	/*
+	draw_spatial_triangle(Triangle(Vector(150, 100, 400), Vector(300, 1000, 100), Vector(600, 600, 900), RED));
+	draw_spatial_triangle(Triangle(Vector(600, 1000, 300), Vector(800, 0, 300), Vector(1300, 400, 500), TEAL));
+	draw_spatial_triangle(Triangle(Vector(150, 150, 400), Vector(300, 100, 200), Vector(600, 100, 700), YELLOW));
+	draw_spatial_triangle(Triangle(Vector(600, 0, 200), Vector(800, 400, 0), Vector(1300, 800, 600), BLUE));*/
+	static long double x = 0;
+	draw_spatial_triangle(Triangle(Vector(100 * sin(x) + 100, 50*cos(x)+500, 300), Vector(150, 900, 0), Vector(300, 1000, 60), PURPLE), true);
+	if(!visor->paused) x += 0.01;
 	// Updates the screen
-	SDL_RenderPresent(main_renderer);
+	//SDL_RenderPresent(main_renderer);
 	
 	// Updates the position of each shape if unpaused. The visor, however, is always updated
 	if(visor->paused) {
@@ -436,6 +395,8 @@ void Canvas::update() {
 			s->update_pos();
 		}
 	}
+	
+	SDL_UpdateWindowSurface(window);
 	
 	// Frees the previously allocated depths array
 	for(int x = 0; x < HEIGHT; ++x) {
