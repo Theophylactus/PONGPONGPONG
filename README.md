@@ -11,13 +11,14 @@ The code might be a bit quirky since no tutorials or guides were followed at any
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/pong.png)
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/pongpong.png)
 ### A more recent screenshot (with triangles!)
-![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/pongpongpong.png)
-### 11/02/2023, triangles are now flawlessly rendered
-![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/ICOSAHEDRON.png)
 
 ### An even more recent screenshot (after replacing SDL_RenderDrawPoint with the much faster... uhm.. directly putting pixels on the SDL_Surface of the window!)
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/wayway.png)
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/pongway.png)
+![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/pongpongpong.png)
+
+### 11/02/2023, triangles are now flawlessly rendered
+![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/ICOSAHEDRON.png)
 
 This project was entirely made as a humble attempt to recreate the glorious 3D graphics we see in PONPONPON:
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/hand.jpg)
