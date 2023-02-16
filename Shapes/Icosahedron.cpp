@@ -4,7 +4,7 @@ constexpr double phi = 1.618033988749;
 constexpr double phi2 = phi/2;
 
 void Icosahedron::setup_vertices() {
-	double side = radius*2 / phi;
+	double side = radius / phi2;
 
 	std::vector<Vector> points;
 
