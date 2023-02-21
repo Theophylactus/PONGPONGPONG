@@ -4,7 +4,7 @@ The code might be a bit quirky since no tutorials or guides were followed at any
 ## Dependencies
 * libsdl2
 * Not a single matrix
-* libsdl_ttf
+* libsdl_ttf~~
 * Many sweet, industrially produced chocolate biscuits
 
 ## Some examples
