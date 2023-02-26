@@ -5,6 +5,7 @@ The code might be a bit quirky since no tutorials or guides were followed at any
 * libsdl2
 * Not a single matrix
 * ~libsdl_ttf~
+* libsdl_image
 * Many sweet, industrially produced chocolate biscuits
 
 ## Some examples
@@ -29,3 +30,6 @@ Now that I have [at least partially] achieved my goal, I shall return home in pe
 
 ~~The triangle drawing function is a bit broken. And so might be the elastic collision.~~ 11/02/2023 FIXED IT!
 The elastic collisions might be a bit broken, although I am not entirely sure of that. I might have typed some angles wrong. I hope everyone will be able to forgive me. For anyone wondering, these formulas were not copied (I couldn't find them anywhere!), but derived. For reference, the derivantion for 2D collisions is https://williamecraver.wixsite.com/elastic-equations. Thank you.
+
+### 26/2/2023
+![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/gura.png)
