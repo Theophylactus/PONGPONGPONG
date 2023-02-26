@@ -32,4 +32,4 @@ Now that I have [at least partially] achieved my goal, I shall return home in pe
 The elastic collisions might be a bit broken, although I am not entirely sure of that. I might have typed some angles wrong. I hope everyone will be able to forgive me. For anyone wondering, these formulas were not copied (I couldn't find them anywhere!), but derived. For reference, the derivantion for 2D collisions is https://williamecraver.wixsite.com/elastic-equations. Thank you.
 
 ### 26/2/2023
-![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/gura.png)
+![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/guraball.png)
