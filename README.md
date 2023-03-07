@@ -32,4 +32,4 @@ Now that I have [at least partially] achieved my goal, I shall return home in pe
 For anyone wondering, the formulas governing elastic collisions were not copied (I couldn't find them anywhere!), but derived. For reference, the derivantion for 2D collisions is https://williamecraver.wixsite.com/elastic-equations. Thank you.
 
 ### 26/2/2023
-![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/guraball.png)
+![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/GURAA.png)
