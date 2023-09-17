@@ -3,10 +3,10 @@ This is a 3D physics "engine" featuring elastic collisions and some other fancy 
 The code might be a bit quirky since no tutorials or guides were followed at any point.
 ## Dependencies
 * libsdl2
-* Not a single matrix
+* Not a single matrix (yet)
 * ~libsdl_ttf~
 * libsdl_image
-* Many sweet, industrially produced chocolate biscuits
+* Biscuits
 
 ## Some examples
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/pong.png)
