@@ -32,3 +32,5 @@ Now that I have [at least partially] achieved my goal, I shall return home in pe
 
 ### 26/2/2023
 ![](https://raw.githubusercontent.com/Theophylactus/PONG_3D/main/img/GURAA.png)
+
+# TODO: Rewrite in Haskell and add more decent physics
